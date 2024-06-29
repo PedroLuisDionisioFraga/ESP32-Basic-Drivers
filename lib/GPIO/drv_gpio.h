@@ -29,7 +29,7 @@ typedef enum
   // Pins Down
   D15 = GPIO_NUM_15,
   D4 = GPIO_NUM_4,
-  PD5 = GPIO_NUM_5,
+  D5 = GPIO_NUM_5,
   D18 = GPIO_NUM_18,
   D19 = GPIO_NUM_19,
   D21 = GPIO_NUM_21,
