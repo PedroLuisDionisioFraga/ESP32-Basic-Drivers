@@ -19,3 +19,7 @@ In large data transmissions in UART communication, highlighting that UART frames
 
 ### UART RX interruption
 It was deprecated in v5.0 of esp-idf, it used the `uart_isr_register()` function and created a task to handle the UART interrupt.
+
+
+## Future Features
+- Implement the Queue to handle the data received by the UART.
