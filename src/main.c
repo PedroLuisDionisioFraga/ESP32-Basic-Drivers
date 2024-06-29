@@ -2,20 +2,19 @@
 #include <freertos/task.h>
 #include <esp_log.h>
 
-#include "gpio.h"
+#include "drv_gpio.h"
+#include "drv_uart.h"
 
 #define LED_PIN BUILTIN_LED
 
 void app_main()
 {
-  gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
-  gpio_set_level(LED_PIN, GPIO_STATE_LOW);
+  (void)init_uart(TX_2, RX_2);
+  (void)config_rx_task(NULL);  // TODO: Works it
 
-  while (true)
+  while (1)
   {
-    gpio_set_level(LED_PIN, GPIO_STATE_HIGH);
-    esp_delay(1000);
-    gpio_set_level(LED_PIN, GPIO_STATE_LOW);
-    esp_delay(1000);
+    (void)send_data("Hello World!\n");
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
 }
