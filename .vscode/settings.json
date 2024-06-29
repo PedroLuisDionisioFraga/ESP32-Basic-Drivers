@@ -5,6 +5,21 @@
     "interrupt.h": "c",
     "gpio.h": "c",
     "esp_err.h": "c",
-    "gpio_types.h": "c"
+    "gpio_types.h": "c",
+    "external_interrupt.h": "c",
+    "esp_intr_alloc.h": "c",
+    "led.hpp": "c",
+    "esp_log.h": "c",
+    "drv_gpio.h": "c",
+    "drv_uart.h": "c",
+    "return_code.h": "c",
+    "cmath": "c",
+    "stdlib.h": "c",
+    "uart.h": "c",
+    "queue.h": "c",
+    "string.h": "c",
+    "task.h": "c",
+    "assert.h": "c",
+    "stdint.h": "c"
   }
 }
