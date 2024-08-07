@@ -1,6 +1,8 @@
 /**
  * @file gpio.h
  * @brief Header file for GPIO pinout definitions and utility functions.
+ *
+ * @note It depend of the `return_code.h` and `gpio_types.h` files.
  */
 
 #ifndef GPIO_H_
@@ -8,7 +10,8 @@
 
 #include <driver/gpio.h>
 #include <hal/gpio_types.h>
-#include <esp_err.h>
+
+#include "return_code.h"
 
 /**
  * @brief Enumeration of GPIO pinout definitions.
@@ -134,5 +137,76 @@ typedef enum
   GPIO_STATE_LOW = 0,
   GPIO_STATE_HIGH = 1,
 } gpio_state_t;
+
+/**
+ * @brief Initializes a GPIO pin with the specified mode.
+ *
+ * @param pin The GPIO pin number.
+ * @param mode The desired mode of the GPIO pin (input or output).
+ * @return A return code indicating success or failure (OK or GPIO_ERR_INVALID_MODE).
+ *
+ * This function uses the following registers to set the pin mode:
+ * - `GPIO_ENABLE_W1TS_REG`: Write 1 to set the output enable state for GPIO pins 0-31.
+ * - `GPIO_ENABLE_W1TC_REG`: Write 1 to clear the output enable state for GPIO pins 0-31.
+ *
+ * @note Differences between GPIO enable registers:
+ * - `GPIO_ENABLE_REG`: Main read/write register for enabling/disabling GPIO output.
+ * - `GPIO_ENABLE_W1TS_REG`: Write-only, sets specific GPIO bits without affecting others.
+ * - `GPIO_ENABLE_W1TC_REG`: Write-only, clears specific GPIO bits without affecting others.
+ */
+return_code_t gpio_init(uint32_t pin, gpio_mode_t mode);
+
+/**
+ * @brief Set the GPIO pin to the specified state.
+ *
+ * This function sets the specified GPIO pin to either a high or low state.
+ *
+ * @param pin The GPIO pin number to be set.
+ * @param state The state to set the GPIO pin to.
+ *
+ * @note The cast on GPIO_OUT_W1TS_REG address to a volatile uint32_t pointer and dereference it to write the value. This ensures direct and immediate access to the hardware register.
+ */
+return_code_t gpio_write(uint32_t pin, gpio_state_t state);
+
+/**
+ * @brief Read the state of a GPIO pin.
+ *
+ * This function reads the current state of the specified GPIO pin (high or low).
+ *
+ * @param pin The GPIO pin number.
+ * @param state A pointer to store the read state of the GPIO pin (high or low).
+ * @return A return code indicating success (OK).
+ *
+ * @note The `GPIO_IN_REG` register contains the input values of GPIO pins 0-31.
+ */
+return_code_t gpio_read(uint32_t pin, gpio_state_t *state);
+
+/**
+ * @brief Enables the internal pull-up resistor for a GPIO pin.
+ *
+ * This function configures a specified GPIO pin to enable its internal pull-up resistor.
+ * It directly manipulates the IO MUX register corresponding to the pin to set the pull-up control bit and clear the pull-down control bit.
+ *
+ * @param pin The GPIO pin number for which to enable the pull-up resistor.
+ *
+ * @note The available pins for pull-up are 14, 16(RX_2), 17(TX_2), 18, 19, 21, 22 and 23
+ *
+ * @return return_code_t Returns OK if the operation was successful.
+ */
+return_code_t gpio_en_pullup(uint32_t pin);
+
+/**
+ * @brief Enables the internal pull-down resistor for a GPIO pin.
+ *
+ * This function configures a specified GPIO pin to enable its internal pull-down resistor.
+ * It directly manipulates the IO MUX register corresponding to the pin to set the pull-down control bit and clear the pull-up control bit.
+ *
+ * @param pin The GPIO pin number for which to enable the pull-down resistor.
+ *
+ * @note The available pins for pull-up are 14, 16(RX_2), 17(TX_2), 18, 19, 21, 22 and 23
+ *
+ * @return return_code_t Returns OK if the operation was successful.
+ */
+return_code_t gpio_en_pulldown(uint32_t pin);
 
 #endif // GPIO_H_

@@ -5,6 +5,22 @@
     "interrupt.h": "c",
     "gpio.h": "c",
     "esp_err.h": "c",
-    "gpio_types.h": "c"
-  }
+    "gpio_types.h": "c",
+    "task.h": "c",
+    "drv_gpio.h": "c",
+    "drv_gpio_hal.h": "c",
+    "io_mux_reg.h": "c",
+    "return_code.h": "c",
+    "gpio_reg.h": "c",
+    "io_mux_pins.h": "c",
+    "system_error": "c",
+    "array": "c",
+    "functional": "c",
+    "tuple": "c",
+    "type_traits": "c",
+    "utility": "c"
+  },
+  "cSpell.words": [
+    "microcontrollers"
+  ]
 }
